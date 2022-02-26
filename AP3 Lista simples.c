@@ -91,7 +91,7 @@ void revprntList(Aluno *f){
 }
 
 void lenList(Aluno *f){
-    int num = 0;
+    int qtd = 0;
     for (; f != NULL; f = f->next){
         num++;
     }
@@ -99,15 +99,20 @@ void lenList(Aluno *f){
     return;
 }
 
-void freeMem(Aluno *f){
-    Aluno *aux, *prev;
-    int i, count = 0;
-    for (aux = f; aux != NULL; aux = aux->next){
-        if (aux != f) free(prev);
+void freeMem(Aluno **f){
+    Aluno *aux = (*f)->next, *prev = *f;
+    while (1){
+        free(prev);
+        printf("-");
+        if (aux->next == NULL){
+            free(aux);
+            printf("-");
+            break;
+        }
         prev = aux;
-        count++;
+        aux = aux->next;
     }
-    for (i = 0; i < count; i++) printf("-");
+    return;
 }
 
 int main(){
@@ -135,6 +140,6 @@ int main(){
                 break;
         }
     }
-    freeMem(head);
+    freeMem(&head);
     return 0;
 }
