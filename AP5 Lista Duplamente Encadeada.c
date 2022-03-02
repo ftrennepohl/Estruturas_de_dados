@@ -106,12 +106,16 @@ void lenList(Aluno *f){
 void freeMem(Aluno **f){
     Aluno *aux, *prev;
     for (aux = *f; aux != NULL; aux = aux->next){
-        if (aux->next == NULL) free(aux);
-        else free(prev);
-        printf("*");
+		if (aux->next != NULL){
+			free(prev);
+			printf("*");
+		} else{
+			free(aux);
+			printf("*");
+			return;
+		}
         prev = aux;
     }
-    return;
 }
 
 int main(){
