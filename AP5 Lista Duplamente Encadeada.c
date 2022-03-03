@@ -30,12 +30,13 @@ void insList(Aluno **f, Aluno **t){
         *t = new;
         return;
     }
-    for (aux = (*f)->next; aux != NULL; aux = aux->next){
+    for (aux = *f; aux != NULL; aux = aux->next){
         if (strcmp(aux->matricula, targ) == 0){
-            new->next = aux;
-            new->prev = aux->prev;
-            new->prev->next = new;
-            aux->prev = new;
+            new->prev = aux;
+            new->next = aux->next;
+            if (aux->next != NULL) aux->next->prev = new;
+            aux->next = new;
+            if (new->next == NULL) *t = new;
             return;
         }
     }
@@ -108,13 +109,11 @@ void freeMem(Aluno **f){
     for (aux = (*f)->next; aux != NULL; aux = aux->next){
 		free(prev);
 		printf("*");
-		if (aux->next == NULL){
-			free(aux);
-			printf("*");
-			return;
-		}
         prev = aux;
     }
+    free(aux);
+    printf("*");
+    return;
 }
 
 int main(){
