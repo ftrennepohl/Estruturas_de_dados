@@ -16,6 +16,11 @@ struct aluno{
 };
 typedef struct aluno Aluno;
 
+int notEmpty(Aluno *f){
+    if (f != NULL) return 1;
+    else return 0;
+}
+
 void insList(Aluno **f, Aluno **t){
     Aluno *aux, *new;
     char targ[10];
@@ -31,12 +36,12 @@ void insList(Aluno **f, Aluno **t){
         return;
     }
     for (aux = *f; aux != NULL; aux = aux->next){
-        if (strcmp(aux->matricula, targ) == 0){
+        if (!strcmp(aux->matricula, targ)){
             new->prev = aux;
             new->next = aux->next;
-            if (aux->next != NULL) aux->next->prev = new;
+            if (notEmpty(aux->next)) aux->next->prev = new;
             aux->next = new;
-            if (new->next == NULL) *t = new;
+            if (!notEmpty(new->next)) *t = new;
             return;
         }
     }
@@ -47,8 +52,8 @@ void insList(Aluno **f, Aluno **t){
 }
 
 void delList(Aluno **f, Aluno **t){
-    if (*f == NULL){
-        printf("Lista Vazia!\n");
+    if (!notEmpty(*f)){
+        printf("Lista Vazia!\n");  //programa encerra quando remove lista com 1 elemento
         return;
     }
     Aluno *aux;
@@ -58,13 +63,14 @@ void delList(Aluno **f, Aluno **t){
         if (strcmp(aux->matricula, targ) == 0){
             if (aux == *f){
                 *f = aux->next;
-                (*f)->prev=NULL;
+                if (notEmpty(*f)) (*f)->prev=NULL;
+                else *t = NULL;
             } else if (aux == *t){
                 *t = aux->prev;
                 (*t)->next = NULL;
             } else{
-            aux->next->prev = aux->prev;
-            aux->prev->next = aux->next;
+                aux->next->prev = aux->prev;
+                aux->prev->next = aux->next;
             }
             free(aux);
             return;
@@ -74,20 +80,19 @@ void delList(Aluno **f, Aluno **t){
 }
 
 void prntList(Aluno *f){
-    Aluno *aux;
     if (f == NULL) printf("Lista Vazia!\n");
-    for (aux = f; aux != NULL; aux = aux->next)
-        printf("%s, %s, %d/%d/%d, %.2f\n", aux->matricula, aux->nome, aux->nascimento.dia, aux->nascimento.mes, 
-        aux->nascimento.ano, aux->media);
+    for (; f != NULL; f = f->next)
+        printf("%s, %s, %d/%d/%d, %.2f\n", f->matricula, f->nome, f->nascimento.dia, f->nascimento.mes, 
+        f->nascimento.ano, f->media);
     return;
 }
 
 void revprntList(Aluno *t){
     void revprnt(Aluno *t){
-        Aluno *aux;
-        for (aux = t; aux != NULL; aux = aux->prev)
-            printf("%s, %s, %d/%d/%d, %.2f\n", aux->matricula, aux->nome, aux->nascimento.dia, aux->nascimento.mes, 
-            aux->nascimento.ano, aux->media);
+        for (; t != NULL; t = t->prev)
+            printf("%s, %s, %d/%d/%d, %.2f\n", t->matricula, t->nome, t->nascimento.dia, t->nascimento.mes, 
+            t->nascimento.ano, t->media);
+        return;
     }
     if (t == NULL){
         printf("Lista Vazia!\n");
