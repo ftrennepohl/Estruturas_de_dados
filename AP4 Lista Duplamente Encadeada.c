@@ -53,7 +53,7 @@ void insList(Aluno **f, Aluno **t){
 
 void delList(Aluno **f, Aluno **t){
     if (!notEmpty(*f)){
-        printf("Lista Vazia!\n");  //programa encerra quando remove lista com 1 elemento
+        printf("Lista Vazia!\n");
         return;
     }
     Aluno *aux;
@@ -88,17 +88,13 @@ void prntList(Aluno *f){
 }
 
 void revprntList(Aluno *t){
-    void revprnt(Aluno *t){
-        for (; t != NULL; t = t->prev)
-            printf("%s, %s, %d/%d/%d, %.2f\n", t->matricula, t->nome, t->nascimento.dia, t->nascimento.mes, 
-            t->nascimento.ano, t->media);
-        return;
-    }
     if (t == NULL){
         printf("Lista Vazia!\n");
         return;
     }
-    revprnt(t);
+    for (; t != NULL; t = t->prev)
+        printf("%s, %s, %d/%d/%d, %.2f\n", t->matricula, t->nome, t->nascimento.dia, t->nascimento.mes, 
+        t->nascimento.ano, t->media);
     return;
 }
 
