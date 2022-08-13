@@ -53,8 +53,7 @@ Data selectionSort(int *vet, int n, Data res)
 	return res;
 }
 
-Data insertionSort(int *vet, int n, Data res)
-{
+Data insertionSort(int *vet, int n, Data res){
 	for (int i = 1; i < n; i++){
 		int key = vet[i];
 		int j = i - 1;
@@ -70,8 +69,7 @@ Data insertionSort(int *vet, int n, Data res)
 	return res;
 }
 
-int * CriaVet(int *arr, int n)
-{
+int * CriaVet(int *arr, int n){
 	int *vet = malloc(n * sizeof(int));
 	for (int i=0; i<n; i++) vet[i] = arr[i];
 	return vet;

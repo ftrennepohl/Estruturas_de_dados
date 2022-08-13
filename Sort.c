@@ -1,25 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-void bubbleSort(int *vet, int n);
-void selectionSort(int *vet, int n);
-void insertionSort(int *vet, int n);
-
-int main()
-{
-	// int n;
-	// scanf("%d", &n);
-	int vet[9] = {7, 10, 5, 3, 8, 4, 2, 9, 6};
-	// for (int i = 0; i < n; i++)
-	//	scanf("%d", &vet[i]);
-	insertionSort(vet, 9);
-}
+#include <time.h>
 
 void bubbleSort(int *vet, int n)
 {
 	for (int i = n - 1; i > 0; i--)
-		for (int j = 0; j < i; j++)
-		{
+		for (int j = 0; j < i; j++){
 			if (vet[j] > vet[j + 1])
 			{
 				int aux = vet[j + 1];
@@ -27,8 +13,6 @@ void bubbleSort(int *vet, int n)
 				vet[j] = aux;
 			}
 		}
-	for (int j = 0; j < n; j++)
-		printf("%d ", vet[j]);
 }
 
 void selectionSort(int *vet, int n)
@@ -61,4 +45,33 @@ void insertionSort(int *vet, int n)
 		printf("%d ", vet[j]);
 }
 
+void countingSort(int *arr, int len){
+	int *aux, max = 0;
+	for (int i=0; i<len; i++) if (arr[i] > max) max = arr[i];
+	aux = calloc(max+1, sizeof(int));
+	for (int i=0; i<len; i++) aux[arr[i]]++;
+	int i=0, j=0;
+	while(i <= max){
+		if (aux[i]!=0){
+			arr[j] = i;
+			aux[i]--;
+			j++;
+		} else i++;
+	}
+}
 
+void testarSort()
+{
+	int len = 100;
+	int *arr;
+	arr = malloc(len * sizeof(int));
+	srand(time(NULL));
+	for (int i=0; i<len; i++) arr[i] = rand() % len;
+	countingSort(arr, len);
+	for (int i=0; i<len; i++) printf("%d\n", arr[i]);
+}
+
+int main()
+{
+	testarSort();
+}
